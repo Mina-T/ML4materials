@@ -120,26 +120,27 @@ class Extxyz_to_json:
         return File, file_name
 
         
-    def read_system(self, idx):
+    def parse_data(self, idx):
+        data = dict()
         File, file_name = self.read_system()
         structure = list(extxyz.read_xyz(File, index = idx, properties_parser = extxyz.key_val_str_to_dict))
         atomic_numbers = get_atomic_numbers(structure)
-        natom = len(atomic_numbers)
-        cell = get_cell(structure)
-        pos = get_positions(structure)
-        energy = get_energy(structure)
-        force = get_forces(structure)
-        symbols = [ptable[i] for i in atomic_numbers]
-        Id = str(idx)+'_'+ file_name
-        lst = [natom, atomic_numbers, cell, symbols, pos, energy, force, Id]
-        return lst
+        data['atomic_numbers'] = atomic_numbers
+        data['natom'] = len(atomic_numbers)
+        data['cell'] = get_cell(structure)
+        data['pos'] = get_positions(structure)
+        data['energy'] = get_energy(structure)
+        data['force'] = get_forces(structure)
+        data['symbols'] = [ptable[i] for i in atomic_numbers]
+        data['Id'] = str(idx)+'_'+ file_name
+        return data
 
     def build_atoms(self, data, idx):
-        pos = data[4].tolist()
-        natoms = data[0]
-        force = data[6].tolist()
+        pos = data['pos'].tolist()
+        natoms = data['natom']
+        force = data['force'].tolist()
         atoms = []
-        symbols = data[3]
+        symbols = data['symbols']
         labels = list(range(natoms))
         for idx, (atom, pos, force) in enumerate(zip(symbols, pos, force)):
                 species = atom
