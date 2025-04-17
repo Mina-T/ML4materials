@@ -45,7 +45,7 @@ class network(nn.Module):
                 loss.backward()
                 optimizer.step()
                 total_loss += loss.item()
-            # print(f"Epoch {epoch+1}/{self.info['n_epochs']}, Loss: {total_loss/len(batch):.6f}") 
-        torch.save(model.state_dict(), 'model_weights.pth')
+                print(f"Epoch {epoch+1}/{self.info['n_epochs']}, Loss: {total_loss/len(labels):.6f}") 
+            torch.save(model.state_dict(), f'model_weights_{epoch}.pth')
 
 
