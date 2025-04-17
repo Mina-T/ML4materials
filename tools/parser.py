@@ -35,5 +35,4 @@ def input_parser(input_file):
 
     return parser
 
-print(input_parser('/home/mina-joojoo/Desktop/programming/MLIP_MT/input_file.ini'))
 
