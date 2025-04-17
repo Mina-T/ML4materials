@@ -15,7 +15,7 @@ class network(nn.Module):
         super(network, self).__init__()
         self.descr_array = torch.from_numpy(descr_array).float()
         self.energy_arr = torch.from_numpy(energy_arr).float()
-        self.descr_dim = self.descr_array[0].shape[1]
+        self.descr_dim = self.descr_array.shape[1]
         self.info = input_parser(input_file)
 
     def make_model(self):    
@@ -29,6 +29,7 @@ class network(nn.Module):
 
     def train_model(self, error_criterion = nn.MSELoss()):
         model = self.make_model()
+        # customize the initial parameters
         optimizer = optim.Adam(model.parameters(), lr= self.info['learning_rate']) # add optimizer choice
         model.train() # Puts the model in training mode
         # batches = self.build_batches(self.batch_size) # use data loader
@@ -45,7 +46,7 @@ class network(nn.Module):
                 loss.backward()
                 optimizer.step()
                 total_loss += loss.item()
-                print(f"Epoch {epoch+1}/{self.info['n_epochs']}, Loss: {total_loss/len(labels):.6f}") 
+            print(f"Epoch {epoch+1}/{self.info['n_epochs']}, Loss: {total_loss/len(labels):.6f}") 
             torch.save(model.state_dict(), f'model_weights_{epoch}.pth')
 
 
