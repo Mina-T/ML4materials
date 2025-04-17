@@ -20,6 +20,8 @@ def input_parser(input_file):
     parser['train_data_path'] = training_info.get('train_data_path')
     parser['train_data_file'] = training_info.get('train_data_file')
     parser['training_path'] = training_info.get('training_path')
+    parser['save_frequency'] = training_info.get('save_frequency')
+
      
     # descriptor_info = My_config['DESCRIPTOR_INFO'] ... later
     
