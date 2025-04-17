@@ -34,7 +34,9 @@ class network(nn.Module):
         model.train() # Puts the model in training mode
         # batches = self.build_batches(self.batch_size) # use data loader
         ## if restart:
+        scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma= 0.95)
         for epoch in range(self.info['n_epochs']):
+            scheduler.step()
             total_loss = 0
             # batch = self.get_batch(batches, epoch)
             # data, labels = batch[:,0], batch[:,1] 
@@ -46,7 +48,6 @@ class network(nn.Module):
                 loss.backward()
                 optimizer.step()
                 total_loss += loss.item()
+            print('lr: ', scheduler.get_lr())
             print(f"Epoch {epoch+1}/{self.info['n_epochs']}, Loss: {total_loss/len(labels):.6f}") 
             torch.save(model.state_dict(), f'model_weights_{epoch}.pth')
-
-
